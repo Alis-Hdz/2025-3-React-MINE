@@ -7,7 +7,7 @@ export default function BannerCarousel({ banners }) {
       {banners.map((banner, index) => {
         return (
           <div key={index} className="banner">
-            <img src={banner.images} alt={banner.title} />
+            <img src={banner.image} alt={banner.title} />
             <h2>{banner.title}</h2>
             <p>{banner.description}</p>
           </div>
