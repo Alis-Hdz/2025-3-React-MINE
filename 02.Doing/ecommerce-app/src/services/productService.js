@@ -8,3 +8,9 @@ export const fetchProducts = async () => {
     }, 2000); // 2 segundos de delay
   });
 };
+
+export async function getProductById(id) {
+  await new Promise((res) => setTimeout(res, 300));
+  const products = await fetchProducts();
+  return products.find((p) => p._id === id);
+}

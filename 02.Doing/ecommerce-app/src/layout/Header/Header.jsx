@@ -89,10 +89,12 @@ export default function Header() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
+    if (searchQuery.trim()===0) {
       console.log("Buscando:", searchQuery);
       setIsMobileSearchOpen(false);
+      setIsMobileMenuOpen(false);
     }
+    navigate(´/search?q=${encodeURIComponent(query)}´);
   };
 
   const handleLogin = () => {

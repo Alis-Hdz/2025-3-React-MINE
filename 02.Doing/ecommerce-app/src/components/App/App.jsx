@@ -4,7 +4,7 @@ import Layout from "../../layout/Layout";
 import Cart from "../../pages/Cart";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
-import ProductDetails from "../../pages/ProductDetail";
+import Product from "../../pages/Product";
 import Profile from "../../pages/Profile";
 import ProtectedRoute from "../../pages/ProtectedRoute";
 
@@ -25,7 +25,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/product/:productId" element={<ProductDetails />} />
+            <Route path="/product/:productId" element={<Product />} />
             <Route path="*" element={<div>Ruta no encontrada</div>} />
           </Routes>
         </Layout>

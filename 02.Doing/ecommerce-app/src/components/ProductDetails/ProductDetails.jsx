@@ -1,36 +1,45 @@
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import Button from "../components/common/Button";
-import { useCart } from "../context/CartContext";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import { getProductById } from "../../services/productService";
+import Button from "../common/Button";
+import ErrorMessage from "../common/ErrorMessage/ErrorMessage";
+import Loading from "../common/Loading/Loading";
 
-export default function ProductDetails() {
-  const { productId } = useParams();
+export default function ProductDetails({ productId }) {
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    getProductById(productId)
+      .then((foundProduct) => {
+        setProduct(foundProduct);
+      })
+      .catch(() => setError("Ocurrió un error al cargar el producto,"))
+      .finally(() => setLoading(false));
+  }, [productId]);
+
   if (loading) {
-    return (
-      <div className="loading-container">
-        <h3>Cargando Productos</h3>
-        <p>Un momento por favor...</p>
-      </div>
-    );
+    return <Loading>Cargando Producto...</Loading>;
   }
 
   if (error) {
     return (
-      <div className="error-container">
-        <h3>Error</h3>
-        <p>Revisa nuestra página principal o explora mas categorías...</p>
-      </div>
+      <ErrorMessage>
+        <p>
+          Revisa nuestra <Link to="/">página principal</Link> o explora otras
+          categorías
+        </p>
+        <span>{error}</span>
+      </ErrorMessage>
     );
   }
 
-  if (!product) {
-    return null;
-  }
+  if (!product) return null;
 
   const { name, description, price, stock, imagesUrl, category } = product;
   const stockBadge = stock > 0 ? "success" : "error";
